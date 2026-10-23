@@ -1,6 +1,6 @@
 # PHP inventory and reviewed remediation with AWS Systems Manager
 
-Find PHP on mixed Linux EC2 instances, export evidence for Excel review, then prepare a **separate, single-host, approval-gated patch change**. No live AWS account has been scanned or patched as part of this example.
+Find PHP on mixed Linux EC2 instances, export evidence for Excel review, then prepare a **separate, single-host, approval-gated patch change**. Validated on two disposable EC2 hosts (Ubuntu 24.04 and Amazon Linux 2023) on 23 October 2026. See [live lab results](docs/live-lab-results.md).
 
 The collector is deliberately small. It uses SSM Run Command and Python's standard library on the host. It inventories dpkg/RPM packages and PHP CLI/FPM/CGI binaries in known paths. No SSH access or application secrets are required. Containers, arbitrary custom locations, FrankenPHP, LiteSpeed and loaded Apache modules require additional review. A negative result means **not detected in this scope**, not proof that PHP is absent everywhere.
 
@@ -110,6 +110,6 @@ This supports your organization's patch/change-control evidence process. It is *
 python3 -m unittest discover -s tests -v
 ```
 
-26 offline tests cover version boundaries, backport ambiguity, multiple PHP runtimes, missing coverage, stale inventory, approval ordering, fixed inventory documents, exact package targeting, drift, expired windows and failed-update restart prevention. SSM and package operations are mocked. No live AWS execution or real APT/DNF/YUM transaction has been validated. Test one disposable host per OS/repository combination before operational use.
+28 offline tests cover version boundaries, backport ambiguity, multiple PHP runtimes, missing coverage, stale inventory, approval ordering, fixed inventory documents, exact package targeting, drift, expired windows and failed-update restart prevention. SSM and package operations are mocked. Real SSM Automation approval/rejection and APT/DNF upgrades were validated in the disposable lab. YUM and production applications remain untested. Test one disposable host per OS/repository combination before operational use.
 
 References: [PHP advisory](https://www.php.net/archive/2026.php#2026-10-21-5), [AWS PHP bulletin](https://aws.amazon.com/security/security-bulletins/2026-143-aws/), [SSM approval action](https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-action-approve.html), [Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html), [AL2023 repository versioning](https://docs.aws.amazon.com/linux/al2023/ug/managing-repos-os-updates.html). The supplied CISA link returned HTTP 403 during research; thresholds were checked against the primary PHP advisory.

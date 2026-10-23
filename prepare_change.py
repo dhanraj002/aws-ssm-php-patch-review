@@ -89,6 +89,7 @@ def document(plan):
                + '\nPackages: ' + json.dumps(plan['targets']) + '\nRestart: ' + ', '.join(plan['restart_services'])
                + '\nVendor: ' + plan['vendor_evidence'] + '\nPlan SHA256: ' + digest
                + '\nDependencies may change and package scripts may restart services. Confirm backup, staging test and rollback in the ticket.')
+    message = message.replace('\n', ' | ')
     if len(message) > 4096:
         raise ValueError('Approval message too long; use a smaller reviewed change')
     return {'schemaVersion': '0.3', 'description': 'PHP package remediation: ' + plan['ticket'] + '; plan SHA256 ' + digest,

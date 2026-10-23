@@ -34,6 +34,9 @@ def assess(host):
     states = [version_state(item['version']) for item in binaries]
     # Extension package versions are not necessarily the PHP engine version.
     core = [p for p in packages if re.search(r'(?:^php(?:\d+(?:\.\d+)*)?-(?:common|cli|fpm|cgi)|^libapache2-mod-php|^php(?:\d+(?:\.\d+)*)?(?:\.|:|$)|-php-(?:common|cli|fpm|cgi))', p['name'])]
+    if inventory.get('manager') == 'apt':
+        # Debian's unversioned PHP packages describe packaging, not engine versions.
+        core = [p for p in core if not re.fullmatch(r'php(?:-(?:common|cli|fpm|cgi))?(?::[^:]+)?', p['name'])]
     states.extend(version_state(item['version']) for item in core)
     if not states:
         return 'VERSION_REVIEW', 'Detected', 'PHP-related packages found; confirm the serving runtime and vendor fix.'

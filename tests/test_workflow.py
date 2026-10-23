@@ -68,6 +68,19 @@ class AssessmentTests(unittest.TestCase):
         host['inventory']['binaries'] = [{'path': '/usr/bin/php', 'version': '8.5.12'}]
         self.assertEqual(assess(host)[0], 'VENDOR_FIX_REVIEW')
 
+    def test_debian_support_package_is_not_engine_version(self):
+        report, _ = fixtures()
+        host = report['hosts'][0]
+        host['inventory']['packages'].append({'name': 'php-common', 'version': '2:93ubuntu2'})
+        self.assertEqual(assess(host)[0], 'VENDOR_FIX_REVIEW')
+
+    def test_rpm_unversioned_common_is_engine(self):
+        report, _ = fixtures()
+        host = report['hosts'][0]
+        host['inventory']['manager'] = 'dnf'
+        host['inventory']['packages'] = [{'name': 'php-common.x86_64', 'version': '8.3.35-1'}]
+        self.assertEqual(assess(host)[0], 'VENDOR_FIX_REVIEW')
+
     def test_extensions_cannot_assert_core_fix(self):
         report, _ = fixtures()
         host = report['hosts'][0]
@@ -86,6 +99,7 @@ class GateTests(unittest.TestCase):
         self.assertEqual(doc['mainSteps'][1]['inputs']['InstanceIds'], [plan['instance_id']])
         self.assertIn('8.3.36-1', doc['mainSteps'][0]['inputs']['Message'])
         self.assertLess(len(json.dumps(doc).encode()), 64000)
+        self.assertRegex(doc['mainSteps'][0]['inputs']['Message'], r'\A.{1,4096}\Z')
 
     def test_no_fixture_or_incomplete_coverage(self):
         for field, value in [('source', 'SYNTHETIC'), ('coverage_errors', ['AccessDenied'])]:
