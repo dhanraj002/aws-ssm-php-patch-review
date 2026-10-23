@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+reports/
+node_modules
+*.xlsx
+*.inspect.ndjson
+.env
+.DS_Store

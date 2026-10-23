@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "source": "SYNTHETIC DEMO \u2014 NOT AWS RESULTS",
+  "account": "123456789012",
+  "generated_at": "2026-10-23T12:00:00+00:00",
+  "regions": [
+    "eu-west-1"
+  ],
+  "scope_tag": "Environment=demo",
+  "coverage_errors": [],
+  "hosts": [
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000001",
+      "scan_status": "SUCCESS",
+      "command_id": "synthetic-command-1",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "amzn",
+        "os_version": "2023",
+        "manager": "dnf",
+        "packages": [
+          {
+            "name": "php8.3-fpm.x86_64",
+            "version": "0:8.3.36-1.demo"
+          }
+        ],
+        "binaries": []
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000002",
+      "scan_status": "SUCCESS",
+      "command_id": "synthetic-command-2",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "ubuntu",
+        "os_version": "24.04",
+        "manager": "apt",
+        "packages": [
+          {
+            "name": "php8.3-fpm",
+            "version": "8.3.6-0ubuntu0.demo"
+          }
+        ],
+        "binaries": []
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000003",
+      "scan_status": "SUCCESS",
+      "command_id": "synthetic-command-3",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "ubuntu",
+        "os_version": "24.04",
+        "manager": "apt",
+        "packages": [],
+        "binaries": []
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000004",
+      "scan_status": "ERROR_InvalidInstanceId",
+      "command_id": "synthetic-command-4",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "unknown",
+        "os_version": "",
+        "manager": "dnf",
+        "packages": [],
+        "binaries": []
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000005",
+      "scan_status": "SUCCESS",
+      "command_id": "synthetic-command-5",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "rhel",
+        "os_version": "9",
+        "manager": "dnf",
+        "packages": [
+          {
+            "name": "php-fpm.x86_64",
+            "version": "0:8.0.30-1.demo"
+          }
+        ],
+        "binaries": []
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000006",
+      "scan_status": "SUCCESS",
+      "command_id": "synthetic-command-6",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "amzn",
+        "os_version": "2023",
+        "manager": "dnf",
+        "packages": [
+          {
+            "name": "php8.5-fpm.x86_64",
+            "version": "0:8.5.12-1.demo"
+          }
+        ],
+        "binaries": [
+          {
+            "path": "/usr/local/bin/php",
+            "version": "8.4.26"
+          }
+        ]
+      }
+    },
+    {
+      "region": "eu-west-1",
+      "instance_id": "i-00000000000000007",
+      "scan_status": "NOT_RUNNING",
+      "command_id": "synthetic-command-7",
+      "inventory": {
+        "schema": 1,
+        "errors": [],
+        "os_id": "unknown",
+        "os_version": "",
+        "manager": "dnf",
+        "packages": [],
+        "binaries": []
+      }
+    }
+  ]
+}

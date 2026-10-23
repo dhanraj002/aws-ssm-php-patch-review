@@ -1,0 +1,31 @@
+{
+  "account": "123456789012",
+  "region": "eu-west-1",
+  "instance_id": "i-00000000000000002",
+  "inventory_sha256": "REPLACE_WITH_SHA256_OF_REAL_INVENTORY_FILE",
+  "os_id": "ubuntu",
+  "os_version": "24.04",
+  "manager": "apt",
+  "window_start": "2026-10-23T18:00:00+00:00",
+  "window_end": "2026-10-23T19:00:00+00:00",
+  "ticket": "REPLACE",
+  "reviewer": "REPLACE",
+  "backup_reference": "REPLACE",
+  "rollback_plan": "REPLACE",
+  "health_check_plan": "REPLACE",
+  "vendor_evidence": "REPLACE_WITH_VENDOR_HTTPS_URL",
+  "expected_packages": {
+    "php8.3-fpm": "REPLACE_WITH_INSTALLED_VERSION"
+  },
+  "targets": [
+    {
+      "name": "php8.3-fpm",
+      "version": "REPLACE_WITH_EXACT_VENDOR_FIXED_VERSION"
+    }
+  ],
+  "restart_services": [
+    "php8.3-fpm.service"
+  ],
+  "automation_role": "arn:aws:iam::123456789012:role/PHPChangeExecution",
+  "approver_arn": "arn:aws:iam::123456789012:role/ChangeApprover"
+}
