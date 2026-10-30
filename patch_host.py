@@ -5,8 +5,9 @@ import subprocess
 from datetime import datetime, timezone
 
 
-def execute_patch(plan, collect, run=subprocess.run):
-    now = datetime.now(timezone.utc)
+def execute_patch(plan, collect, run=subprocess.run, clock=None):
+    clock = clock or (lambda: datetime.now(timezone.utc))
+    now = clock()
     start = datetime.fromisoformat(plan['window_start'])
     end = datetime.fromisoformat(plan['window_end'])
     if not start <= now < end:
@@ -39,6 +40,9 @@ def execute_patch(plan, collect, run=subprocess.run):
         for item in targets:
             name, arch = item['name'].rsplit('.', 1)
             command += [name + '-' + item['version'] + '.' + arch]
+    # Repository refresh can outlast the approved window. Check before mutation.
+    if not start <= clock() < end:
+        raise ValueError('Maintenance window expired before package upgrade')
     checked(command)
     after = collect()
     actual = {p['name']: p['version'] for p in after['packages']}

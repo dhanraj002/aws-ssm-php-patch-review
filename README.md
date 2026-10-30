@@ -96,6 +96,8 @@ The Automation pauses at `aws:approve`. The designated approver reviews the exac
 
 After approval, the host script rechecks OS and the complete PHP package map. APT compares target versions natively and uses `--only-upgrade --no-remove`; DNF/YUM uses exact package identifiers with `upgrade`. Configured repository trust stays in place, with RPM signature checks explicitly enabled. Unavailable target packages fail; the script never downloads PHP from arbitrary URLs. Package managers may change dependencies and run maintainer scripts, including service restarts. Review the transaction in staging; this is not a PHP-only dependency guarantee.
 
+The host checks the maintenance window again immediately before invoking the upgrade, after any APT index refresh. This prevents starting the upgrade after a slow refresh has exhausted the window. It does not interrupt a transaction already in progress or guarantee completion before the window ends.
+
 The script verifies requested package versions, restarts only the listed PHP-FPM/Apache services and checks that they are active. It does **not** reboot, roll back automatically, or prove application health. ALB draining and traffic restoration remain change-ticket tasks. On failure, inspect the SSM output and use the reviewed recovery procedure; a failed operation can leave partial changes.
 
 ## 5. Verify and retain evidence
@@ -110,6 +112,6 @@ This supports your organization's patch/change-control evidence process. It is *
 python3 -m unittest discover -s tests -v
 ```
 
-28 offline tests cover version boundaries, backport ambiguity, multiple PHP runtimes, missing coverage, stale inventory, approval ordering, fixed inventory documents, exact package targeting, drift, expired windows and failed-update restart prevention. SSM and package operations are mocked. Real SSM Automation approval/rejection and APT/DNF upgrades were validated in the disposable lab. YUM and production applications remain untested. Test one disposable host per OS/repository combination before operational use.
+29 offline tests cover version boundaries, backport ambiguity, multiple PHP runtimes, missing coverage, stale inventory, approval ordering, fixed inventory documents, exact package targeting, drift, expired windows and failed-update restart prevention. SSM and package operations are mocked. Real SSM Automation approval/rejection and APT/DNF upgrades were validated in the disposable lab. YUM and production applications remain untested. Test one disposable host per OS/repository combination before operational use.
 
 References: [PHP advisory](https://www.php.net/archive/2026.php#2026-10-21-5), [AWS PHP bulletin](https://aws.amazon.com/security/security-bulletins/2026-143-aws/), [SSM approval action](https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-action-approve.html), [Patch Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager.html), [AL2023 repository versioning](https://docs.aws.amazon.com/linux/al2023/ug/managing-repos-os-updates.html). The supplied CISA link returned HTTP 403 during research; thresholds were checked against the primary PHP advisory.

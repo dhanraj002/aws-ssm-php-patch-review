@@ -161,6 +161,16 @@ class ExecutionTests(unittest.TestCase):
         with self.assertRaises(ValueError): execute_patch(plan, lambda: inv, runner)
         runner.assert_not_called()
 
+    def test_window_expires_during_repository_refresh(self):
+        report, plan = fixtures()
+        runner = Mock()
+        clock = Mock(side_effect=[NOW, NOW + timedelta(hours=2)])
+        with self.assertRaisesRegex(ValueError, 'expired before package upgrade'):
+            execute_patch(plan, lambda: report['hosts'][0]['inventory'], runner, clock)
+        commands = [call.args[0] for call in runner.call_args_list]
+        self.assertTrue(any('update' in cmd for cmd in commands))
+        self.assertFalse(any('install' in cmd or 'systemctl' in cmd for cmd in commands))
+
     def test_expired_window_aborts(self):
         report, plan = fixtures()
         plan['window_end'] = (NOW - timedelta(seconds=1)).isoformat()
